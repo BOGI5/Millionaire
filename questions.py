@@ -1,7 +1,7 @@
 import random
 import pygame
 import json
-from button import *
+from visualization import *
 
 
 class Question:

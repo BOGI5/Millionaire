@@ -2,7 +2,7 @@
 import pygame.transform
 from pygame.locals import *
 import pygame
-from button import *
+from visualization import *
 from questions import *
 pygame.init()
 
@@ -17,7 +17,7 @@ def main():
         if running == 1:
             running = main_menu(screen)
         if running == 2:
-            running = question(screen)
+            running = gaming(screen)
     pygame.quit()
 
 
@@ -27,8 +27,7 @@ def main_menu(screen):
     Here you choose between:
     start, exit and options menu.
     """
-    screen.clear_screen((28, 0, 99))
-    screen.set_background('background.png')
+    clear_screen(screen, (28, 0, 99), 'background.png')
     exit_button = setup_button(770, 750, 'answer_box_right.png', 2, 1.5)
     start_button = setup_button(0, 752, 'answer_box_left.png', 2, 1.5)
     exit_button.draw(screen)
@@ -52,16 +51,16 @@ def main_menu(screen):
     return running
 
 
-def question(screen):
+def gaming(screen):
     running = 2
     game = Game()
     while 0 < game.question_number <= 15 and running == 2:
-        screen.clear_screen((24, 10, 54))
-        screen.set_background('studio.jpg', 1.4)
+        clear_screen(screen, (24, 10, 54), 'studio.jpg', 1.4)
         quest = game.get_question()
         quest = Question(quest['Question'], quest['Correct'], quest['Incorrect'])
-        task = Task('answer_box_left.png', 'answer_box_right.png', 'question.png', 'marked_box.png',
-                    'correct_box.png', 'fifty_fifty.png', 'audience.png', 'phone_2.png', quest, game.hints, 'x.png')
+        task = Task('answer_box_left.png', 'answer_box_right.png', 'question.png', 'marked_box_left.png',
+                    'marked_box_right.png', 'correct_box_left.png', 'correct_box_right.png', 'fifty_fifty.png',
+                    'audience.png', 'phone_2.png', quest, game.hints, 'x.png')
         esc = setup_button(0, 0, 'menu.png', 0.2)
         esc.draw(screen)
         task.print(screen, game.question_number)
@@ -77,13 +76,18 @@ def question(screen):
                 elif event.type == QUIT:
                     running = 0
                 elif answer:
+                    clear_screen(screen, (24, 10, 54), 'studio.jpg', 1.4)
+                    task.print(screen, game.question_number, task.task.answers)
+                    pygame.display.update()
+                    pygame.time.wait(5000)
                     if answer == 1:
+                        mark_correct(task, screen, game.question_number)
                         game.question_number = 0
                     elif answer == 2:
+                        mark_correct(task, screen, game.question_number)
                         game.question_number += 1
                 elif hint:
-                    screen.clear_screen((24, 10, 54))
-                    screen.set_background('studio.jpg', 1.4)
+                    clear_screen(screen, (24, 10, 54), 'studio.jpg', 1.4)
                     task.print(screen, game.question_number, task.task.answers)
                     pygame.display.update()
                     game.hints[hint-1] = True
