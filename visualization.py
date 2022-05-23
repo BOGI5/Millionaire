@@ -59,11 +59,11 @@ class Task:
         if self.question == None:
             self.question = self.task.forming()
 
-        money = ['100', '200', '300', '500', '1 000', '1 500', '2 000', '3 000', '5 000',
-                 '10 000', '15 000', '20 000', '30 000', '50 000', '100 000']
+        money = ['500', '1 000', '2 000', '3 000', '5 000', '10 000', '15 000', '25 000', '50 000',
+                 '100 000', '200 000', '400 000', '800 000', '1 500 000', '3 000 000']
         screen.draw_image(400, 0, 'window.png', 1)
         screen.write_text('Въпрос ' + str(quest_number) + ':', (184, 184, 0), 500, 30, 45)
-        screen.write_text(money[quest_number-1] + ' лв', (255, 255, 255), 775, 30, 45)
+        screen.write_text(money[quest_number-1], (255, 255, 255), 775, 30, 45)
 
         self.question_box.draw(screen)
         screen.write_question(self.question['Question'], (255, 255, 255), 35)

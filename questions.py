@@ -131,19 +131,23 @@ class Question:
 
 
 class Game:
-    def __init__(self):
-        self.question_number = 1
-        self.hints = [False, False, False]
-        self.money = 0
-        self.getted_questions = [0]
+    def __init__(self, progress=None):
+        if progress is None:
+            self.question_number = 1
+            self.hints = [False, False, False]
+            self.got_questions = [0]
+        else:
+            self.question_number = progress['Quest_num']
+            self.hints = progress['Hints']
+            self.got_questions = progress['Got_questions']
 
     def get_question(self):
         with open('database.json', 'r') as file:
             all_questions = json.load(file)
         rand = 0
-        while len(all_questions) < rand < 1 or rand in self.getted_questions:
+        while len(all_questions) < rand < 1 or rand in self.got_questions:
             rand = random.randint(1, len(all_questions))
-        self.getted_questions.append(rand)
+        self.got_questions.append(rand)
         question = all_questions[str(rand)]
         question = {'Question': question['Question'], 'Correct': question['Correct'], 'Incorrect': question['Incorrect']}
         return question
