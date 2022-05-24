@@ -27,6 +27,8 @@ def main():
             progress = result[1]
             if len(progress) == 0:
                 progress = None
+        elif running == 4:
+            running = about_us(screen)
     pygame.quit()
 
 
@@ -38,17 +40,17 @@ def main_menu(screen):
     """
     clear_screen(screen, (28, 0, 99), 'background.png')
     exit_button = setup_button(770, 785, 'answer_box_right.png', 2, 1.5)
-    options_button = setup_button(770, 700, 'answer_box_right.png', 2, 1.5)
+    about_button = setup_button(770, 700, 'answer_box_right.png', 2, 1.5)
     start_button = setup_button(0, 787, 'answer_box_left.png', 2, 1.5)
     load_button = setup_button(0, 702, 'answer_box_left.png', 2, 1.5)
     exit_button.draw(screen)
-    options_button.draw(screen)
+    about_button.draw(screen)
     start_button.draw(screen)
     load_button.draw(screen)
     screen.write_text('New game', (255, 255, 255), 325, 809, 35)
     screen.write_text('Load game', (255, 255, 255), 325, 724, 35)
     screen.write_text('Exit', (255, 255, 255), 1110, 809, 35)
-    screen.write_text('Options', (255, 255, 255), 1085, 724, 35)
+    screen.write_text('About us', (255, 255, 255), 1085, 724, 35)
     running = 1
     pygame.display.update()
     while running == 1:
@@ -64,7 +66,30 @@ def main_menu(screen):
                 running = 2
             elif load_button.click():
                 running = 3
+            elif about_button.click():
+                running = 4
     pygame.display.update()
+    return running
+
+
+def about_us(screen):
+    running = 4
+    clear_screen(screen, (24, 10, 54), 'studio.jpg', 1.4)
+    about = setup_button(0, 555, 'question.png', 2, 1.5, 1)
+    about.draw(screen)
+    esc = setup_button(0, 0, 'menu.png', 0.2)
+    esc.draw(screen)
+    screen.write_text('Тази игра е направена от Богдан Яков 9б, като проект за Въведение в скриптовите езици.', (255, 255, 255), 170, 600, 30)
+    pygame.display.update()
+    while running == 4:
+        for event in pygame.event.get():
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    running = 1
+            elif event.type == QUIT:
+                running = 1
+            elif esc.click():
+                running = 1
     return running
 
 
@@ -96,7 +121,7 @@ def gaming(screen, progress=None):
                     clear_screen(screen, (24, 10, 54), 'studio.jpg', 1.4)
                     task.print(screen, game.question_number, task.task.answers)
                     pygame.display.update()
-                    pygame.time.wait(3000)
+                    pygame.time.wait(1500)
                     if answer == 1:
                         mark_correct(task, screen, game.question_number)
                         game.question_number = 0
@@ -118,48 +143,11 @@ def gaming(screen, progress=None):
                     esc.draw(screen)
                     task.print(screen, game.question_number, task.task.answers)
                     pygame.display.update()
+        price_won(screen, task.money, game.question_number)
 
     pygame.display.update()
     running = 1
     return running
-
-
-def draw_pause_menu(screen, game):
-    money_tree = {
-        '1.png': [962, 755],
-        '2.png': [960, 705],
-        '3.png': [962, 655],
-        '4.png': [964, 600],
-        '5.png': [963, 542],
-        '6.png': [964, 492],
-        '7.png': [963, 436],
-        '8.png': [964, 383],
-        '9.png': [964, 331],
-        '10.png': [964, 277],
-        '11.png': [964, 224],
-        '12.png': [963, 170],
-        '13.png': [964, 117],
-        '14.png': [963, 64],
-        '15.png': [963, 11]
-    }
-    clear_screen(screen, (0, 0, 0), 'studio_pause.jpg')
-    resume_button = setup_button(130, 500, 'box.png', 2, 1.5, 1)
-    save_button = setup_button(130, 600, 'box.png', 2, 1.5, 1)
-    leave_button = setup_button(130, 700, 'box.png', 2, 1.5, 1)
-    resume_button.draw(screen)
-    save_button.draw(screen)
-    leave_button.draw(screen)
-    screen.draw_image(950, 0, 'money_tree.png', 1.1)
-    for i in range(1, game.question_number):
-        file = str(i) + '.png'
-        screen.draw_image(money_tree[file][0], money_tree[file][1], 'got_price.png', 1.1)
-    file = str(game.question_number) + '.png'
-    screen.draw_image(money_tree[file][0], money_tree[file][1], file, 1.1)
-    screen.write_text('Resume', (255, 255, 255), 385, 517, 50)
-    screen.write_text('Save', (255, 255, 255), 410, 617, 50)
-    screen.write_text('Leave', (255, 255, 255), 400, 717, 50)
-    pygame.display.update()
-    return [resume_button, save_button, leave_button]
 
 
 def pause_menu(screen, game):
@@ -178,7 +166,7 @@ def pause_menu(screen, game):
                 running = 1
             elif buttons[1].click():
                 save_progress(screen, game)
-                pygame.time.wait(3000)
+                pygame.time.wait(2000)
                 buttons = draw_pause_menu(screen, game)
     return running
 

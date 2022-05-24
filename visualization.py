@@ -53,17 +53,17 @@ class Task:
         self.task = task
         self.hints = hints
         self.used = used
+        self.money = ['500', '1 000', '2 000', '3 000', '5 000', '10 000', '15 000', '25 000', '50 000',
+                      '100 000', '200 000', '400 000', '800 000', '1 500 000', '3 000 000']
 
     def print(self, screen, quest_number, question=None):
         self.question = question
         if self.question == None:
             self.question = self.task.forming()
 
-        money = ['500', '1 000', '2 000', '3 000', '5 000', '10 000', '15 000', '25 000', '50 000',
-                 '100 000', '200 000', '400 000', '800 000', '1 500 000', '3 000 000']
         screen.draw_image(400, 0, 'window.png', 1)
         screen.write_text('Въпрос ' + str(quest_number) + ':', (184, 184, 0), 500, 30, 45)
-        screen.write_text(money[quest_number-1], (255, 255, 255), 775, 30, 45)
+        screen.write_text(self.money[quest_number-1], (255, 255, 255), 775, 30, 45)
 
         self.question_box.draw(screen)
         screen.write_question(self.question['Question'], (255, 255, 255), 35)
@@ -207,10 +207,75 @@ def mark_correct(task, screen, question_number):
     screen.set_background('studio.jpg', 1.4)
     task.print(screen, question_number, task.task.answers)
     pygame.display.update()
-    pygame.time.wait(3000)
+    pygame.time.wait(1500)
 
 
 def clear_screen(screen, color, background=None, height=1.0):
     screen.clear_screen(color)
     if background is not None:
         screen.set_background(background, height)
+
+
+def draw_pause_menu(screen, game):
+    money_tree = {
+        '1.png': [962, 755],
+        '2.png': [960, 705],
+        '3.png': [962, 655],
+        '4.png': [964, 600],
+        '5.png': [963, 542],
+        '6.png': [964, 492],
+        '7.png': [963, 436],
+        '8.png': [964, 383],
+        '9.png': [964, 331],
+        '10.png': [964, 277],
+        '11.png': [964, 224],
+        '12.png': [963, 170],
+        '13.png': [964, 117],
+        '14.png': [963, 64],
+        '15.png': [963, 11]
+    }
+    clear_screen(screen, (0, 0, 0), 'studio_pause.jpg')
+    resume_button = setup_button(130, 500, 'box.png', 2, 1.5, 1)
+    save_button = setup_button(130, 600, 'box.png', 2, 1.5, 1)
+    leave_button = setup_button(130, 700, 'box.png', 2, 1.5, 1)
+    resume_button.draw(screen)
+    save_button.draw(screen)
+    leave_button.draw(screen)
+    screen.draw_image(950, 0, 'money_tree.png', 1.1)
+    for i in range(1, game.question_number):
+        file = str(i) + '.png'
+        screen.draw_image(money_tree[file][0], money_tree[file][1], 'got_price.png', 1.1)
+    file = str(game.question_number) + '.png'
+    screen.draw_image(money_tree[file][0], money_tree[file][1], file, 1.1)
+    screen.write_text('Resume', (255, 255, 255), 385, 517, 50)
+    screen.write_text('Save', (255, 255, 255), 410, 617, 50)
+    screen.write_text('Leave', (255, 255, 255), 400, 717, 50)
+    pygame.display.update()
+    return [resume_button, save_button, leave_button]
+
+
+def price_won(screen, money_list, question_number):
+    clear_screen(screen, (24, 10, 54), 'studio.jpg', 1.4)
+    button = setup_button(0, 555, 'question.png', 2, 1.5, 1)
+    button.draw(screen)
+    if question_number == 1:
+        question_number = 2
+    if question_number == 0:
+        screen.write_text('Ти загуби. Опитай пак.', (255, 255, 255), 470, 600, 60)
+    elif question_number == 16:
+        screen.write_text('Ти спечели! Честито.', (255, 255, 255), 500, 600, 60)
+        price = setup_button(0, 690, 'question.png', 2, 1.5, 1)
+        price.draw(screen)
+        screen.write_text('Печалба: ', (184, 184, 0), 500, 735, 60)
+        screen.write_text(str(money_list[14]), (255, 255, 255), 800, 735, 60)
+    else:
+        screen.write_text('Печалба: ', (184, 184, 0), 500, 600, 60)
+        screen.write_text(str(money_list[question_number-2]), (255, 255, 255), 800, 600, 60)
+    screen.write_text('Натисни "space", за да продължиш.', (255, 255, 255), 600, 570, 20)
+    pygame.display.update()
+    pressed = True
+    while pressed:
+        for event in pygame.event.get():
+            if event.type == KEYDOWN:
+                if event.key == K_SPACE:
+                    pressed = False

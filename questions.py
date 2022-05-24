@@ -118,12 +118,12 @@ class Question:
         rand = -5
         answers = ['Не съм сигурен, но мисля, че е ', 'Разбира се, че отговора е ', 'Според мен отговора е ',
                    'Правилният отговор е ', 'Съжалявам, но не знам отговора.', 'Отговора е очевиден - ']
-        while 0 <= rand <= len(answers):
+        while 0 > rand or rand >= len(answers):
             rand = random.randint(0, len(answers))
         screen.draw_image(400, 100, window, 1)
         screen.write_text('Обади се на приятел', (184, 184, 0), 645, 115, 25)
         if rand == 4:
-            screen.write_text(answers[rand] + self.answers['Correct'], (255, 255, 255), 480, 150, 35)
+            screen.write_text(answers[rand], (255, 255, 255), 480, 150, 35)
         else:
             screen.write_text(answers[rand] + self.answers['Correct'], (255, 255, 255), 480, 150, 35)
         pygame.display.update()
