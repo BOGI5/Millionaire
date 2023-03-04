@@ -61,7 +61,7 @@ class Task:
         if self.question == None:
             self.question = self.task.forming()
 
-        screen.draw_image(400, 0, 'window.png', 1)
+        screen.draw_image(400, 0, '../Images/window.png', 1)
         screen.write_text('Въпрос ' + str(quest_number) + ':', (184, 184, 0), 500, 30, 45)
         screen.write_text(self.money[quest_number-1], (255, 255, 255), 775, 30, 45)
 
@@ -204,7 +204,7 @@ def setup_button(x, y, file, scale, height=1.0, width=0):
 def mark_correct(task, screen, question_number):
     task.mark_correct()
     screen.clear_screen((24, 10, 54))
-    screen.set_background('studio.jpg', 1.4)
+    screen.set_background('../Images/studio.jpg', 1.4)
     task.print(screen, question_number, task.task.answers)
     pygame.display.update()
     pygame.time.wait(1500)
@@ -218,34 +218,34 @@ def clear_screen(screen, color, background=None, height=1.0):
 
 def draw_pause_menu(screen, game):
     money_tree = {
-        '1.png': [962, 755],
-        '2.png': [960, 705],
-        '3.png': [962, 655],
-        '4.png': [964, 600],
-        '5.png': [963, 542],
-        '6.png': [964, 492],
-        '7.png': [963, 436],
-        '8.png': [964, 383],
-        '9.png': [964, 331],
-        '10.png': [964, 277],
-        '11.png': [964, 224],
-        '12.png': [963, 170],
-        '13.png': [964, 117],
-        '14.png': [963, 64],
-        '15.png': [963, 11]
+        '../Images/1.png': [962, 755],
+        '../Images/2.png': [960, 705],
+        '../Images/3.png': [962, 655],
+        '../Images/4.png': [964, 600],
+        '../Images/5.png': [963, 542],
+        '../Images/6.png': [964, 492],
+        '../Images/7.png': [963, 436],
+        '../Images/8.png': [964, 383],
+        '../Images/9.png': [964, 331],
+        '../Images/10.png': [964, 277],
+        '../Images/11.png': [964, 224],
+        '../Images/12.png': [963, 170],
+        '../Images/13.png': [964, 117],
+        '../Images/14.png': [963, 64],
+        '../Images/../Images/15.png': [963, 11]
     }
-    clear_screen(screen, (0, 0, 0), 'studio_pause.jpg')
-    resume_button = setup_button(130, 500, 'box.png', 2, 1.5, 1)
-    save_button = setup_button(130, 600, 'box.png', 2, 1.5, 1)
-    leave_button = setup_button(130, 700, 'box.png', 2, 1.5, 1)
+    clear_screen(screen, (0, 0, 0), '../Images/studio_pause.jpg')
+    resume_button = setup_button(130, 500, '../Images/box.png', 2, 1.5, 1)
+    save_button = setup_button(130, 600, '../Images/box.png', 2, 1.5, 1)
+    leave_button = setup_button(130, 700, '../Images/box.png', 2, 1.5, 1)
     resume_button.draw(screen)
     save_button.draw(screen)
     leave_button.draw(screen)
-    screen.draw_image(950, 0, 'money_tree.png', 1.1)
+    screen.draw_image(950, 0, '../Images/money_tree.png', 1.1)
     for i in range(1, game.question_number):
-        file = str(i) + '.png'
-        screen.draw_image(money_tree[file][0], money_tree[file][1], 'got_price.png', 1.1)
-    file = str(game.question_number) + '.png'
+        file = '../Images/' + str(i) + '.png'
+        screen.draw_image(money_tree[file][0], money_tree[file][1], '../Images/got_price.png', 1.1)
+    file = '../Images/' + str(game.question_number) + '.png'
     screen.draw_image(money_tree[file][0], money_tree[file][1], file, 1.1)
     screen.write_text('Resume', (255, 255, 255), 385, 517, 50)
     screen.write_text('Save', (255, 255, 255), 410, 617, 50)
@@ -255,8 +255,8 @@ def draw_pause_menu(screen, game):
 
 
 def price_won(screen, money_list, question_number):
-    clear_screen(screen, (24, 10, 54), 'studio.jpg', 1.4)
-    button = setup_button(0, 555, 'question.png', 2, 1.5, 1)
+    clear_screen(screen, (24, 10, 54), '../Images/studio.jpg', 1.4)
+    button = setup_button(0, 555, '../Images/question.png', 2, 1.5, 1)
     button.draw(screen)
     if question_number == 1:
         question_number = 2
@@ -264,7 +264,7 @@ def price_won(screen, money_list, question_number):
         screen.write_text('Ти загуби. Опитай пак.', (255, 255, 255), 470, 600, 60)
     elif question_number == 16:
         screen.write_text('Ти спечели! Честито.', (255, 255, 255), 500, 600, 60)
-        price = setup_button(0, 690, 'question.png', 2, 1.5, 1)
+        price = setup_button(0, 690, '../Images/question.png', 2, 1.5, 1)
         price.draw(screen)
         screen.write_text('Печалба: ', (184, 184, 0), 500, 735, 60)
         screen.write_text(str(money_list[14]), (255, 255, 255), 800, 735, 60)

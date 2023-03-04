@@ -38,11 +38,11 @@ def main_menu(screen):
     Here you choose between:
     start, exit and options menu.
     """
-    clear_screen(screen, (28, 0, 99), 'background.png')
-    exit_button = setup_button(770, 785, 'answer_box_right.png', 2, 1.5)
-    about_button = setup_button(770, 700, 'answer_box_right.png', 2, 1.5)
-    start_button = setup_button(0, 787, 'answer_box_left.png', 2, 1.5)
-    load_button = setup_button(0, 702, 'answer_box_left.png', 2, 1.5)
+    clear_screen(screen, (28, 0, 99), '../Images/background.png')
+    exit_button = setup_button(770, 785, '../Images/answer_box_right.png', 2, 1.5)
+    about_button = setup_button(770, 700, '../Images/answer_box_right.png', 2, 1.5)
+    start_button = setup_button(0, 787, '../Images/answer_box_left.png', 2, 1.5)
+    load_button = setup_button(0, 702, '../Images/answer_box_left.png', 2, 1.5)
     exit_button.draw(screen)
     about_button.draw(screen)
     start_button.draw(screen)
@@ -74,10 +74,10 @@ def main_menu(screen):
 
 def about_us(screen):
     running = 4
-    clear_screen(screen, (24, 10, 54), 'studio.jpg', 1.4)
-    about = setup_button(0, 555, 'question.png', 2, 1.5, 1)
+    clear_screen(screen, (24, 10, 54), '../Images/studio.jpg', 1.4)
+    about = setup_button(0, 555, '../Images/question.png', 2, 1.5, 1)
     about.draw(screen)
-    esc = setup_button(0, 0, 'menu.png', 0.2)
+    esc = setup_button(0, 0, '../Images/menu.png', 0.2)
     esc.draw(screen)
     screen.write_text('Тази игра е направена от Богдан Яков 9б, като проект за Въведение в скриптовите езици.', (255, 255, 255), 170, 600, 30)
     pygame.display.update()
@@ -97,13 +97,14 @@ def gaming(screen, progress=None):
     running = 2
     game = Game(progress)
     while 0 < game.question_number <= 15 and running == 2:
-        clear_screen(screen, (24, 10, 54), 'studio.jpg', 1.4)
+        clear_screen(screen, (24, 10, 54), '../Images/studio.jpg', 1.4)
         quest = game.get_question()
         quest = Question(quest['Question'], quest['Correct'], quest['Incorrect'])
-        task = Task('answer_box_left.png', 'answer_box_right.png', 'question.png', 'marked_box_left.png',
-                    'marked_box_right.png', 'correct_box_left.png', 'correct_box_right.png', 'fifty_fifty.png',
-                    'audience.png', 'phone.png', quest, game.hints, 'x.png')
-        esc = setup_button(0, 0, 'menu.png', 0.2)
+        task = Task('../Images/answer_box_left.png', '../Images/answer_box_right.png', '../Images/question.png',
+                    '../Images/marked_box_left.png', '../Images/marked_box_right.png', '../Images/correct_box_left.png',
+                    '../Images/correct_box_right.png', '../Images/fifty_fifty.png', '../Images/audience.png',
+                    '../Images/phone.png', quest, game.hints, '../Images/x.png')
+        esc = setup_button(0, 0, '../Images/menu.png', 0.2)
         esc.draw(screen)
         task.print(screen, game.question_number)
         pygame.display.update()
@@ -111,14 +112,14 @@ def gaming(screen, progress=None):
         while answer == 0 and running == 2:
             for event in pygame.event.get():
                 answer = task.get_answer()
-                hint = task.get_hint('window.png', screen)
+                hint = task.get_hint('../Images/window.png', screen)
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         running = 1
                 elif event.type == QUIT:
                     running = 0
                 elif answer:
-                    clear_screen(screen, (24, 10, 54), 'studio.jpg', 1.4)
+                    clear_screen(screen, (24, 10, 54), '../Images/studio.jpg', 1.4)
                     task.print(screen, game.question_number, task.task.answers)
                     pygame.display.update()
                     pygame.time.wait(1500)
@@ -129,7 +130,7 @@ def gaming(screen, progress=None):
                         mark_correct(task, screen, game.question_number)
                         game.question_number += 1
                 elif hint:
-                    clear_screen(screen, (24, 10, 54), 'studio.jpg', 1.4)
+                    clear_screen(screen, (24, 10, 54), '../Images/studio.jpg', 1.4)
                     task.print(screen, game.question_number, task.task.answers)
                     pygame.display.update()
                     game.hints[hint-1] = True
@@ -139,7 +140,7 @@ def gaming(screen, progress=None):
                         running = pause_menu(screen, game)
                     if running != 2:
                         return running
-                    clear_screen(screen, (24, 10, 54), 'studio.jpg', 1.4)
+                    clear_screen(screen, (24, 10, 54), '../Images/studio.jpg', 1.4)
                     esc.draw(screen)
                     task.print(screen, game.question_number, task.task.answers)
                     pygame.display.update()
@@ -182,11 +183,11 @@ def save_progress(screen, game):
         data = json.load(file)
     if len(data) != 0:
         pressed = 0
-        screen.draw_image(10, 0, 'window.png', 1.3)
+        screen.draw_image(10, 0, '../Images/window.png', 1.3)
         screen.write_text("It's already have a saved game.", (184, 184, 0), 120, 15, 55)
         screen.write_text("Do you want to overwrite your save?", (184, 184, 0), 60, 55, 55)
-        confirm_button = setup_button(482, 118, 'answer_box_right.png', 2, 1.5, 147)
-        cancel_button = setup_button(0, 120, 'answer_box_left.png', 2, 1.5, 147)
+        confirm_button = setup_button(482, 118, '../Images/answer_box_right.png', 2, 1.5, 147)
+        cancel_button = setup_button(0, 120, '../Images/answer_box_left.png', 2, 1.5, 147)
         confirm_button.draw(screen)
         cancel_button.draw(screen)
         screen.write_text('Confirm', (255, 255, 255), 625, 137, 50)
@@ -204,7 +205,7 @@ def save_progress(screen, game):
     if pressed == 1:
         with open('save.json', 'w') as file:
             json.dump(save, file)
-        screen.draw_image(10, 0, 'window.png', 1.3)
+        screen.draw_image(10, 0, '../Images/window.png', 1.3)
         screen.write_text('Saved successfully', (184, 184, 0), 90, 15, 100)
         pygame.display.update()
 
@@ -219,16 +220,16 @@ def load_progress(screen):
     running = 3
     with open('save.json', 'r') as file:
         progress = json.load(file)
-    clear_screen(screen, (0, 0, 0), 'background.png')
-    next_button = setup_button(770, 785, 'answer_box_right.png', 2, 1.5)
-    back_button = setup_button(0, 787, 'answer_box_left.png', 2, 1.5)
+    clear_screen(screen, (0, 0, 0), '../Images/background.png')
+    next_button = setup_button(770, 785, '../Images/answer_box_right.png', 2, 1.5)
+    back_button = setup_button(0, 787, '../Images/answer_box_left.png', 2, 1.5)
     next_button.draw(screen)
     back_button.draw(screen)
     screen.write_text('Back', (255, 255, 255), 325, 809, 35)
     if len(progress) != 0:
-        hints = ['fifty_fifty.png', 'audience.png', 'phone.png', 'x.png']
+        hints = ['../Images/fifty_fifty.png', '../Images/audience.png', '../Images/phone.png', '../Images/x.png']
         screen.write_text('Continue', (255, 255, 255), 1080, 809, 35)
-        screen.draw_image(225, 0, 'window.png', 1.5)
+        screen.draw_image(225, 0, '../Images/window.png', 1.5)
         screen.write_text('Saved data:', (184, 184, 0), 675, 15, 45)
         screen.write_text('Question:', (184, 184, 0), 360, 70, 45)
         screen.write_text(str(progress['Quest_num']), (255, 255, 255), 550, 70, 45)
@@ -243,7 +244,7 @@ def load_progress(screen):
         if progress['Hints'][2]:
             screen.draw_image(1100, 60, hints[3], 0.3)
     else:
-        screen.draw_image(225, 0, 'window.png', 1.5)
+        screen.draw_image(225, 0, '../Images/window.png', 1.5)
         screen.write_text('No saved data', (184, 184, 0), 560, 40, 75)
         screen.write_text('N/A', (184, 184, 0), 1110, 809, 35)
     pygame.display.update()
